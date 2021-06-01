@@ -54,6 +54,7 @@ If you start typing the package name without the quotation marks, `R` will start
 
 ```{r eval=FALSE}
 # install the tidyverse
+# install.packages("tidyverse")
 ```
 
 However, just because you have a package, that does not mean you can use it.
@@ -69,6 +70,7 @@ Let's load the `tidyverse`.[^loading_quotation]
 
 ```{r}
 # load the tidyverse
+library(tidyverse)
 ```
 
 One of the most popular and noticeable features of the `tidyverse` is the pipe operator, which looks like this: `%>%`.[^pipe_shortcut]
@@ -91,6 +93,7 @@ They are then executed from the inside towards the outside.
 
 ```{r}
 # take the mean of the example vector and round the result to two decimal places (base R style)
+round(mean(example_vector), 2)
 ```
 
 We could also do the same thing stepwise (and sometimes this is the best approach if you want your code to be readable).
@@ -103,7 +106,13 @@ In the tidyverse, we chain those functions together using the pipe operator:
 
 ```{r}
 # this time: tidy style!
+example_vector %>% mean() %>% round()
 ```
+
+```{r}
+
+```
+
 
 Note how we can leave out the actual data argument every time.
 `mean()` doesn't use any argument at all.
@@ -124,6 +133,8 @@ another_vector <- c(3, -2, 5, 99, -132.5)
 
 ```{r}
 # use abs on the vector, then take the mean and transform the result into a character
+another_vector %>% abs() %>% mean() %>% as.character()
+
 ```
 
 1.2) Let's make things a bit trickier with additional arguments.
@@ -134,7 +145,9 @@ vector_with_NAs <- c(3, -2, 5, NA, 99, -132.5, NA)
 
 ```{r}
 # use abs on the vector, show the first 4 elements with head, take the mean (with na.rm = TRUE)
-# and turn into character
+# and turn into character -> tidyverse-version
+vector_with_NAs %>% abs() %>% head(4) %>% mean(na.rm = TRUE) %>% as.character
+
 ```
 
 1.3) How do we get this into a pipe?
@@ -148,6 +161,7 @@ This does not work:
 ```{r}
 another_vector * 2 %>% mean()
 ```
+
 
 ## Data wrangling
 
@@ -169,6 +183,8 @@ I want to keep the participants' age, the gender, whether they're married or not
 
 ```{r}
 # select age, gender, married, and Q1 - Q26
+nerd%>%
+select(age, gender, married, Q1:Q26)
 ```
 
 A few remarkable things just happened.
